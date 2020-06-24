@@ -1,0 +1,67 @@
+<mat-card class="page-card">
+  <mat-card-content>
+      <form>
+        <mat-form-field class="m-l-10" appearance="outline">
+          <mat-label>Document Type</mat-label>
+          <mat-select [(ngModel)]="mergeData.documentType" name="documentType">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let element of DocumentList" [value]="element.Code">
+              {{element.Description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="m-l-10" appearance="outline">
+          <mat-label>Document Sub Type</mat-label>
+          <mat-select [(ngModel)]="mergeData.documentSubType" name="documentSubType">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let element of DocumentSubList" [value]="element.Code">
+              {{element.Description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="m-l-10" appearance="outline">
+          <mat-label>Document Name</mat-label>
+          <input matInput placeholder="Document Name" [(ngModel)]="mergeData.documentName" name="documentName">
+        </mat-form-field>     
+        <button class="m-l-10" mat-raised-button color="primary" (click)="save()" [disabled]="done.length <= 0">Save</button>
+      </form>
+    <div class="example-container">
+      <!-- <h2>To do</h2> -->
+
+      <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of todo" cdkDrag>
+          <img [src]="'data:image/jpg;base64,'+item.document" class="img-person" width="200px" height="300px"
+            (click)="previewImg(item)"> <br>
+          <div class="row">
+            Page - {{item.pageNumber}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <!-- <h2>Done</h2> -->
+      <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of done" cdkDrag>
+          <img [src]="'data:image/jpg;base64,'+item.document" class="img-person" width="200px" height="300px"
+            (click)="previewImg(item)"> <br>
+          <div class="row">
+            Page - {{item.pageNumber}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="preview-container" *ngIf="previewImage.documentName">
+      <div class="row" style="text-align: center;">
+        <strong>{{previewImage.documentName}}</strong>
+      </div>
+      <img [src]="'data:image/jpg;base64,'+previewImage.document" class="img-person" width="500px" height="650px"
+        (click)="previewImage=''"> <br>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-progress-spinner [overlay]="overlay">
+</app-progress-spinner>
